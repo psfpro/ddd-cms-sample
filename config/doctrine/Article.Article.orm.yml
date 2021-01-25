@@ -1,0 +1,19 @@
+App\Domain\Article\Article:
+  type: entity
+  table: article
+  id:
+    id:
+      type: uuid
+      generator:
+        strategy: NONE
+  fields:
+    title:
+      type: string
+    body:
+      type: text
+    createdAt:
+      column: created
+      type: datetime_immutable
+    updatedAt:
+      column: updated
+      type: datetime_immutable

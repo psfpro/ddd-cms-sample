@@ -1,0 +1,189 @@
+openapi: 3.0.1
+info:
+  title: Article CMS
+  description: 'This is a sample server Article CMS.
+  For this sample, you can use the api key `special-key` to test the authorization filters.'
+  version: 1.0.0
+
+servers:
+  - url: http://localhost
+tags:
+  - name: article
+    description: Everything about articles
+paths:
+  /article:
+    get:
+      tags:
+        - article
+      summary: Get Articles
+      description: Get Articles list
+      parameters:
+        - name: page
+          in: query
+          description: Pagination
+          schema:
+            type: integer
+        - name: orderBy
+          in: query
+          description: Order by "title", "createdAt" or "updatedAt".
+          schema:
+            type: string
+          example: createdAt
+        - name: orderDirection
+          in: query
+          description: Order direction "asc" or "desc".
+          schema:
+            type: string
+          example: desc
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Article'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Article'
+    put:
+      tags:
+        - article
+      summary: Update an existing article
+      requestBody:
+        description: Article object that needs to be updated
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  format: uuid
+          application/xml:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  format: uuid
+        required: true
+      responses:
+        401:
+          description: Unauthorized
+          content: {}
+        422:
+          description: Validation exception
+          content: {}
+      security:
+        - BearerAuth: []
+    post:
+      tags:
+        - article
+      summary: Add a new article to the store
+      requestBody:
+        description: Article object that needs to be added
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                body:
+                  type: string
+          application/xml:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                body:
+                  type: string
+        required: true
+      responses:
+        401:
+          description: Unauthorized
+          content: {}
+        422:
+          description: Validation exception
+          content: {}
+      security:
+        - BearerAuth: []
+    delete:
+      tags:
+        - article
+      summary: Deletes a article
+      requestBody:
+        description: Article object that needs to be deleted
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  format: uuid
+                title:
+                  type: string
+                body:
+                  type: string
+          application/xml:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  format: uuid
+                title:
+                  type: string
+                body:
+                  type: string
+        required: true
+      responses:
+        401:
+          description: Unauthorized
+          content: {}
+        422:
+          description: Validation exception
+          content: {}
+      security:
+        - BearerAuth: []
+components:
+  schemas:
+    Article:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        title:
+          type: string
+        body:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      xml:
+        name: Article
+    ApiResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        type:
+          type: string
+        message:
+          type: string
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

@@ -1,0 +1,19 @@
+index:
+    path: /
+    controller: App\Infrastructure\Api\Symfony\Controller\DefaultController:index
+article.index:
+    path: /article
+    controller: App\Infrastructure\Api\Symfony\Controller\ArticleController:index
+    methods: GET|HEAD
+article.create:
+    path: /article
+    controller: App\Infrastructure\Api\Symfony\Controller\ArticleController:create
+    methods: POST
+article.update:
+    path: /article
+    controller: App\Infrastructure\Api\Symfony\Controller\ArticleController:update
+    methods: PUT
+article.delete:
+    path: /article
+    controller: App\Infrastructure\Api\Symfony\Controller\ArticleController:delete
+    methods: DELETE
